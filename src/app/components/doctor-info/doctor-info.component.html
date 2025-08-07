@@ -1,8 +1,37 @@
-<h2>Doctors</h2>
-<ul>
-  <li *ngFor="let doctor of doctors">
-    {{ doctor.name }} - {{ doctor.specialty }}
-    <br />
-    Available Times: {{ doctor.availableTimes.join(', ') }}
-  </li>
-</ul>
+<section class="doctor-section">
+  <div class="container">
+    <h2 class="section-title">Our Expert Doctors</h2>
+
+    <div class="doctor-wrapper">
+      <!-- Filter Sidebar -->
+      <aside class="filter-sidebar">
+        <h3>Filter by Specialty</h3>
+        <ul>
+          <li *ngFor="let spec of specialties">
+            <label>
+              <input type="checkbox"
+                     [(ngModel)]="selectedSpecialties[spec]"
+                     (change)="filterDoctors()" />
+              {{ spec }}
+            </label>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Doctor Cards Grid -->
+      <div class="doctor-grid">
+        <div class="doctor-card" *ngFor="let doctor of filteredDoctors">
+          <img src="assets/images/doctors/{{doctor.id}}.jpeg" alt="{{doctor.name}}" />
+          <div class="doctor-info">
+            <h3>{{ doctor.name }}</h3>
+            <p class="specialty">{{ doctor.specialty }}</p>
+            <p class="available">
+              Available:
+              <span *ngFor="let t of doctor.availableTimes">{{t}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
