@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./register-patient.component.css']
 })
 export class RegisterPatientComponent {
+  // 🔹 Patient Registration Data
   patient = {
     firstName: '',
     lastName: '',
@@ -22,14 +23,40 @@ export class RegisterPatientComponent {
     appointmentDate: ''
   };
 
-  departments = ['General Medicine', 'Cardiology', 'Neurology', 'Orthopedics'];
+  // 🔹 Appointment Booking Data
+booking = {
+  name: '',
+  gender: '',
+  dob: null as Date | null,
+  address: '',
+  email: '',
+  phone: '',
+  department: '',
+  doctor: '' as string | null,    // Allow doctor to be string or null
+  date: null as Date | null       // Allow date to be Date or null
+};
+  // 🔹 Options
+  departments = ['General Medicine', 'Cardiology', 'Neurology', 'Orthopedics', 'Dentistry'];
   procedures = ['Consultation', 'Check-up', 'Follow-up', 'Emergency'];
+  doctors = [
+    { name: 'Dr. Sarah Khan' },
+    { name: 'Dr. Ali Ahmed' }
+  ];
 
   constructor(private snackBar: MatSnackBar) {}
 
+  // ✅ Register Patient
   registerPatient(form: NgForm) {
     if (form.valid) {
       this.snackBar.open('Patient registered successfully!', 'Close', { duration: 3000 });
+      form.resetForm();
+    }
+  }
+
+  // ✅ Book Appointment
+  onBook(form: NgForm) {
+    if (form.valid) {
+      this.snackBar.open('Appointment booked!', 'Close', { duration: 3000 });
       form.resetForm();
     }
   }

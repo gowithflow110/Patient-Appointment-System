@@ -1,0 +1,24 @@
+<mat-card class="home-banner">
+  <div class="banner-content">
+    <h1>Welcome to Our Clinic</h1>
+    <p>Your health, our priority.</p>
+  </div>
+</mat-card>
+
+<mat-card class="services">
+  <h2 style="font-size: xx-large;">Our Services</h2>
+  <div class="service-list">
+    <mat-card *ngFor="let service of services">
+      <img [src]="service.image" alt="{{ service.name }}">
+      <h3>{{ service.name }}</h3>
+      <p>{{ service.description }}</p>
+    </mat-card>
+  </div>
+</mat-card>
+
+<mat-card class="contact-info">
+  <h2>Contact Us</h2>
+  <p>Location: CB 907 Karakoram Highway,Jhangi Abbottabad</p>
+  <p>Phone: +92-992-408054</p>
+  <p>Web: www.cubehcs.com</p>
+</mat-card>

@@ -2,3 +2,6 @@ a.active {
   font-weight: bold;
   border-bottom: 2px solid white;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,49 @@
+.home-banner {
+  background: url('/assets/images/banner.jpg') no-repeat center center;
+  background-size: cover;
+  color: white;
+  text-align: center;
+  padding: 110px 0;
+}
+
+.services {
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+}
+
+.service-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Show exactly 2 per row */
+  gap: 44px;
+  justify-items: center;
+}
+
+.service-list mat-card {
+  width: 100%;
+  max-width: 400px;
+  height: auto; /* Let height adjust based on content */
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.service-list img {
+  width: 100%;               /* Take full width of the container */
+  height: auto;              /* Let height adjust automatically */
+  object-fit: cover;         /* Maintain aspect ratio, cover space */
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.service-list mat-card:hover {
+  transform: translateY(-5px);
+}
+
+.contact-info {
+  padding: 40px 20px;
+  background-color: #f4f4f4;
+  text-align: center;
+}

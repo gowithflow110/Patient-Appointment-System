@@ -1,72 +1,87 @@
-<mat-card class="register-card">
-  <h2 class="form-title">🩺 Register New Patient</h2>
-  <form #registerForm="ngForm" (ngSubmit)="registerPatient(registerForm)" class="register-form">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>First Name</mat-label>
-      <input matInput [(ngModel)]="patient.firstName" name="firstName" required />
-    </mat-form-field>
+<mat-card class="appointment-card">
+  <div class="content">
+    <div class="form-panel">
+      <h3>Book an Appointment</h3>
+      <form (ngSubmit)="onBook(bookingForm)" #bookingForm="ngForm">
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Last Name</mat-label>
-      <input matInput [(ngModel)]="patient.lastName" name="lastName" required />
-    </mat-form-field>
+        <!-- Patient Name -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Patient Name</mat-label>
+          <input matInput name="name" [(ngModel)]="booking.name" required />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Date of Birth</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="patient.dob" name="dob" required />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+        <!-- Gender -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Gender</mat-label>
+          <mat-select name="gender" [(ngModel)]="booking.gender" required>
+            <mat-option value="Male">Male</mat-option>
+            <mat-option value="Female">Female</mat-option>
+            <mat-option value="Other">Other</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Gender</mat-label>
-      <mat-select [(ngModel)]="patient.gender" name="gender" required>
-        <mat-option value="Male">Male</mat-option>
-        <mat-option value="Female">Female</mat-option>
-        <mat-option value="Other">Other</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <!-- Date of Birth -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Date of Birth</mat-label>
+          <input matInput [matDatepicker]="dobPicker" name="dob" [(ngModel)]="booking.dob" required />
+          <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+          <mat-datepicker #dobPicker></mat-datepicker>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Phone Number</mat-label>
-      <input matInput [(ngModel)]="patient.phone" name="phone" required />
-    </mat-form-field>
+        <!-- Address -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address</mat-label>
+          <textarea matInput name="address" [(ngModel)]="booking.address" rows="3" required></textarea>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Address</mat-label>
-      <textarea matInput [(ngModel)]="patient.address" name="address" required></textarea>
-    </mat-form-field>
+        <!-- Email -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" name="email" [(ngModel)]="booking.email" required email />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Email</mat-label>
-      <input matInput [(ngModel)]="patient.email" name="email" required />
-    </mat-form-field>
+        <!-- Phone Number -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Phone Number</mat-label>
+          <input matInput type="tel" name="phone" [(ngModel)]="booking.phone" required />
+        </mat-form-field>
 
-    <mat-checkbox [(ngModel)]="patient.previousVisit" name="previousVisit">
-      Have you ever applied to our facility before?
-    </mat-checkbox>
+        <!-- Department -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Select Department</mat-label>
+          <mat-select name="department" [(ngModel)]="booking.department" required>
+            <mat-option *ngFor="let dep of departments" [value]="dep">{{dep}}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Department</mat-label>
-      <mat-select [(ngModel)]="patient.department" name="department" required>
-        <mat-option *ngFor="let dept of departments" [value]="dept">{{ dept }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <!-- Doctor -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Select Doctor</mat-label>
+          <mat-select name="doctor" [(ngModel)]="booking.doctor" required>
+            <mat-option *ngFor="let doc of doctors" [value]="doc">{{doc.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Procedure</mat-label>
-      <mat-select [(ngModel)]="patient.procedure" name="procedure" required>
-        <mat-option *ngFor="let proc of procedures" [value]="proc">{{ proc }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <!-- Preferred Date -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Preferred Date</mat-label>
+          <input matInput [matDatepicker]="picker" name="date" [(ngModel)]="booking.date" required />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Preferred Appointment Date</mat-label>
-      <input matInput [matDatepicker]="appointmentPicker" [(ngModel)]="patient.appointmentDate" name="appointmentDate" required />
-      <mat-datepicker-toggle matSuffix [for]="appointmentPicker"></mat-datepicker-toggle>
-      <mat-datepicker #appointmentPicker></mat-datepicker>
-    </mat-form-field>
+        <button mat-raised-button color="primary" class="book-btn" [disabled]="!bookingForm.valid">Book Appointment</button>
+      </form>
+    </div>
 
-    <button mat-raised-button color="primary" class="register-btn">Register Patient</button>
-  </form>
+    <div class="calendar-panel">
+      <h4>Available Slots</h4>
+      <!-- Placeholder for calendar -->
+      <div class="calendar-placeholder">
+        <!-- Use FullCalendar or Angular scheduler here -->
+       <schedule-availability [doctor]="booking.doctor || ''" [date]="booking.date"></schedule-availability>
+
+      </div>
+    </div>
+  </div>
 </mat-card>
