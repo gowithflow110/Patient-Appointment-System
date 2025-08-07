@@ -1,0 +1,27 @@
+<h2>Appointment Calendar</h2>
+
+<!-- FullCalendar UI -->
+<full-calendar [options]="calendarOptions"></full-calendar>
+
+<br />
+
+<!-- Table View of Appointments -->
+<h3>Appointment Table</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Patient ID</th>
+      <th>Doctor ID</th>
+      <th>Date</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let appt of appointments">
+      <td>{{ appt.patientId }}</td>
+      <td>{{ appt.doctorId }}</td>
+      <td>{{ appt.date }}</td>
+      <td>{{ appt.time }}</td>
+    </tr>
+  </tbody>
+</table>

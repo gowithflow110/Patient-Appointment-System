@@ -1,7 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
+import { DoctorInfoComponent } from './components/doctor-info/doctor-info.component';
+import { PatientListComponent } from './components/patient-list/patient-list.component';
+import { AppointmentCalendarComponent } from './components/appointment-calendar/appointment-calendar.component';
+
+const routes: Routes = [
+  { path: 'register', component: RegisterPatientComponent },
+  { path: 'doctors', component: DoctorInfoComponent },
+  { path: 'patients', component: PatientListComponent },
+  { path: 'appointments', component: AppointmentCalendarComponent },
+  { path: '', redirectTo: '/register', pathMatch: 'full' },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
