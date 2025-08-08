@@ -8,7 +8,7 @@ body {
 
 /* Appointment Card Container */
 .appointment-card {
-  max-width: 960px;
+  max-width: 1000px;
   margin: 50px auto;
   padding: 0;
   border-radius: 16px;
@@ -24,22 +24,12 @@ body {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
 }
 
-/* Flex Layout */
-.content {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 /* Form Panel */
 .form-panel {
-  flex: 1 1 420px;
   background: linear-gradient(135deg, #48c3e9, #a6e0f5);
   border-radius: 16px;
-  padding: 30px;
-  padding-right: 50px;
-  margin: 20px;
+  padding: 30px 50px 30px 30px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  position: relative;
   z-index: 1;
   border: 2px solid white;
   transition: all 0.3s ease;
@@ -50,48 +40,10 @@ body {
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
 }
 
-.form-panel::before {
-  content: '';
-  position: absolute;
-  top: -12px;
-  left: -12px;
-  right: -12px;
-  bottom: -12px;
-  background: linear-gradient(45deg, #90caf9, #ce93d8);
-  z-index: -1;
-  border-radius: 20px;
-  opacity: 0.2;
-  filter: blur(20px);
-}
-
-/* Calendar Panel */
-.calendar-panel {
-  flex: 1 1 360px;
-  background: rgb(122, 183, 233);
-  border-left: 1px solid #cfd8dc;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 30px;
-}
-
-.calendar-panel h4 {
-  margin-bottom: 20px;
-  color: #1976d2;
-  font-size: 22px;
-  font-weight: 600;
-  border-bottom: 2px solid #1976d2;
-  padding-bottom: 6px;
-}
-
 /* Form Fields */
 .full-width {
   width: 100%;
   margin-bottom: 20px;
-}
-
-.full-width mat-form-field {
-  width: 100%;
 }
 
 .mat-form-field {
@@ -115,55 +67,35 @@ body {
   color: #7e57c2 !important;
 }
 
-/* Book Appointment Button */
-.book-btn {
-  width: 100%;
-  padding: 14px 0;
-  font-size: 16px;
-  background: linear-gradient(45deg, #1976d2, #42a5f5);
-  color: black;
-  border: none;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  cursor: pointer;
+/* Buttons */
+button.mat-raised-button {
   letter-spacing: 0.5px;
 }
 
-.book-btn:hover {
+button.mat-raised-button[color='primary'] {
+  background: linear-gradient(45deg, #1976d2, #42a5f5);
+  color: black;
+}
+
+button.mat-raised-button[color='primary']:hover {
   background: linear-gradient(45deg, #0d47a1, #2196f3);
   box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
   transform: translateY(-2px);
 }
 
-/* Calendar Appointment Box */
-.calendar-panel .calendar-box {
-  background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  width: 100%;
-  margin-top: 10px;
+button.mat-raised-button[color='accent'] {
+  background: #f48fb1;
+  color: white;
 }
 
-.calendar-panel .calendar-box p {
-  margin: 8px 0;
-  font-size: 14px;
-  color: #333;
+button.mat-raised-button[color='accent']:hover {
+  background: #f06292;
+  box-shadow: 0 4px 12px rgba(240, 98, 146, 0.4);
+  transform: translateY(-2px);
 }
 
-/* Responsive Styles */
+/* Responsive */
 @media (max-width: 768px) {
-  .content {
-    flex-direction: column;
-  }
-
-  .form-panel,
-  .calendar-panel {
-    flex: 1 1 100%;
-    margin: 10px 0;
-    padding: 20px;
-  }
-
   .appointment-card {
     margin: 20px;
   }

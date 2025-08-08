@@ -8,10 +8,9 @@ import { Patient } from 'src/app/models/patient.model';
 @Component({
   selector: 'app-register-patient',
   templateUrl: './register-patient.component.html',
-  styleUrls: ['./register-patient.component.css']
+  styleUrls: ['./register-patient.component.css'],
 })
 export class RegisterPatientComponent {
-  // 🔹 Patient Registration Data
   patient = {
     firstName: '',
     lastName: '',
@@ -23,10 +22,9 @@ export class RegisterPatientComponent {
     previousVisit: false,
     department: '',
     procedure: '',
-    appointmentDate: ''
+    appointmentDate: '',
   };
 
-  // 🔹 Appointment Booking Data
   booking = {
     name: '',
     gender: '',
@@ -36,10 +34,9 @@ export class RegisterPatientComponent {
     phone: '',
     department: '',
     doctor: '' as string | null,
-    date: null as Date | null
+    date: null as Date | null,
   };
 
-  // 🔹 Options
   departments = ['Pediatrics', 'Cardiology', 'Neurology', 'Orthopedics', 'Dermatology'];
   procedures = ['Consultation', 'Check-up', 'Follow-up', 'Emergency'];
   doctors = [
@@ -47,7 +44,7 @@ export class RegisterPatientComponent {
     { name: 'Dr. Jane' },
     { name: 'Dr. Ahmed Khan' },
     { name: 'Dr. Emily Chen' },
-    { name: 'Dr. Carlos Ruiz' }
+    { name: 'Dr. Carlos Ruiz' },
   ];
 
   constructor(
@@ -56,43 +53,53 @@ export class RegisterPatientComponent {
     private appointmentService: AppointmentService
   ) {}
 
-  // ✅ Register Patient
-  registerPatient(form: NgForm) {
+  // Called after patient details steps completed
+  completePatientStep(form: NgForm, innerStepper: any, outerStepper: any) {
     if (form.valid) {
-      const fullName = `${this.patient.firstName} ${this.patient.lastName}`;
-      const patientData: Patient = {
-        id: 0, // Will be assigned automatically
-        name: fullName,
-        age: this.calculateAge(this.patient.dob),
-        gender: this.patient.gender,
-        phone: this.patient.phone,
-        email: this.patient.email,
-        address: this.patient.address,
-        department: this.patient.department,
-        procedure: this.patient.procedure,
-        previousVisit: this.patient.previousVisit,
-        appointmentDate: this.patient.appointmentDate
-      };
-
-      this.patientService.addPatient(patientData); // 🔄 Will trigger the BehaviorSubject
-      this.snackBar.open('Patient registered successfully!', 'Close', { duration: 3000 });
-      form.resetForm();
-      this.resetPatientForm();
+      this.registerPatientData();
+      innerStepper.reset();
+      outerStepper.next();
     }
   }
 
-  // ✅ Book Appointment
-  onBook(form: NgForm) {
+  // Called after appointment booking steps completed
+  completeBookingStep(form: NgForm, innerStepper: any, outerStepper: any) {
     if (form.valid) {
       this.appointmentService.addAppointment(this.booking);
-      this.registerPatient(form);
-      this.snackBar.open('Appointment booked!', 'Close', { duration: 3000 });
-      form.resetForm();
-      this.resetBookingForm();
+      innerStepper.reset();
+      outerStepper.next();
+      this.snackBar.open('Appointment saved!', 'Close', { duration: 3000 });
     }
   }
 
-  // 🔹 Helper function to calculate age
+  // Save patient data only once
+  registerPatientData() {
+    const fullName = `${this.patient.firstName} ${this.patient.lastName}`;
+    const patientData: Patient = {
+      id: 0, // assign or generate ID as needed
+      name: fullName,
+      age: this.calculateAge(this.patient.dob),
+      gender: this.patient.gender,
+      phone: this.patient.phone,
+      email: this.patient.email,
+      address: this.patient.address,
+      department: this.patient.department,
+      procedure: this.patient.procedure,
+      previousVisit: this.patient.previousVisit,
+      appointmentDate: this.patient.appointmentDate,
+    };
+
+    this.patientService.addPatient(patientData);
+    this.snackBar.open('Patient registered successfully!', 'Close', { duration: 3000 });
+  }
+
+  // Final confirm button click
+  finalConfirm() {
+    this.snackBar.open('Appointment confirmed! Thank you.', 'Close', { duration: 4000 });
+    this.resetPatientForm();
+    this.resetBookingForm();
+  }
+
   private calculateAge(dob: string): number {
     const birthDate = new Date(dob);
     const today = new Date();
@@ -116,7 +123,7 @@ export class RegisterPatientComponent {
       previousVisit: false,
       department: '',
       procedure: '',
-      appointmentDate: ''
+      appointmentDate: '',
     };
   }
 
@@ -130,7 +137,7 @@ export class RegisterPatientComponent {
       phone: '',
       department: '',
       doctor: null,
-      date: null
+      date: null,
     };
   }
 }

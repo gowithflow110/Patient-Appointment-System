@@ -1,87 +1,157 @@
 <mat-card class="appointment-card">
-  <div class="content">
-    <div class="form-panel">
-      <h3>Book an Appointment</h3>
-      <form (ngSubmit)="onBook(bookingForm)" #bookingForm="ngForm">
+  <mat-horizontal-stepper #outerStepper [orientation]="'vertical'">
 
-        <!-- Patient Name -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Patient Name</mat-label>
-          <input matInput name="name" [(ngModel)]="booking.name" required />
-        </mat-form-field>
+    <!-- Step 1: Patient Details with nested horizontal stepper -->
+    <mat-step label="Patient Details">
+      <mat-horizontal-stepper #innerPatientStepper linear>
 
-        <!-- Gender -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Gender</mat-label>
-          <mat-select name="gender" [(ngModel)]="booking.gender" required>
-            <mat-option value="Male">Male</mat-option>
-            <mat-option value="Female">Female</mat-option>
-            <mat-option value="Other">Other</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <mat-step label="Name">
+          <form #patientForm1="ngForm">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>First Name</mat-label>
+              <input matInput name="firstName" [(ngModel)]="patient.firstName" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Last Name</mat-label>
+              <input matInput name="lastName" [(ngModel)]="patient.lastName" required />
+            </mat-form-field>
+            <div style="text-align:right">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="innerPatientStepper.next()"
+                [disabled]="!patientForm1.valid"
+              >
+                Next
+              </button>
+            </div>
+          </form>
+        </mat-step>
 
-        <!-- Date of Birth -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Date of Birth</mat-label>
-          <input matInput [matDatepicker]="dobPicker" name="dob" [(ngModel)]="booking.dob" required />
-          <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
-          <mat-datepicker #dobPicker></mat-datepicker>
-        </mat-form-field>
+        <mat-step label="DOB & Gender">
+          <form #patientForm2="ngForm">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Date of Birth</mat-label>
+              <input matInput [matDatepicker]="dobPicker" name="dob" [(ngModel)]="patient.dob" required />
+              <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+              <mat-datepicker #dobPicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Gender</mat-label>
+              <mat-select name="gender" [(ngModel)]="patient.gender" required>
+                <mat-option value="Male">Male</mat-option>
+                <mat-option value="Female">Female</mat-option>
+                <mat-option value="Other">Other</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div style="text-align:right">
+              <button mat-raised-button color="accent" (click)="innerPatientStepper.previous()">Back</button>
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="innerPatientStepper.next()"
+                [disabled]="!patientForm2.valid"
+              >
+                Next
+              </button>
+            </div>
+          </form>
+        </mat-step>
 
-        <!-- Address -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Address</mat-label>
-          <textarea matInput name="address" [(ngModel)]="booking.address" rows="3" required></textarea>
-        </mat-form-field>
+        <mat-step label="Contact Info">
+          <form
+            #patientForm3="ngForm"
+            (ngSubmit)="completePatientStep(patientForm3, innerPatientStepper, outerStepper)"
+          >
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Phone</mat-label>
+              <input matInput name="phone" [(ngModel)]="patient.phone" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" name="email" [(ngModel)]="patient.email" required email />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Address</mat-label>
+              <textarea matInput name="address" [(ngModel)]="patient.address" rows="3" required></textarea>
+            </mat-form-field>
+            <div style="text-align:right">
+              <button mat-raised-button color="accent" (click)="innerPatientStepper.previous()">Back</button>
+              <button mat-raised-button color="primary" type="submit" [disabled]="!patientForm3.valid">
+                Save & Next
+              </button>
+            </div>
+          </form>
+        </mat-step>
 
-        <!-- Email -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" name="email" [(ngModel)]="booking.email" required email />
-        </mat-form-field>
+      </mat-horizontal-stepper>
+    </mat-step>
 
-        <!-- Phone Number -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Phone Number</mat-label>
-          <input matInput type="tel" name="phone" [(ngModel)]="booking.phone" required />
-        </mat-form-field>
+    <!-- Step 2: Appointment Booking with nested horizontal stepper -->
+    <mat-step label="Appointment Booking">
+      <mat-horizontal-stepper #innerBookingStepper linear>
 
-        <!-- Department -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Select Department</mat-label>
-          <mat-select name="department" [(ngModel)]="booking.department" required>
-            <mat-option *ngFor="let dep of departments" [value]="dep">{{dep}}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <mat-step label="Department & Doctor">
+          <form #bookingForm1="ngForm">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Select Department</mat-label>
+              <mat-select name="department" [(ngModel)]="booking.department" required>
+                <mat-option *ngFor="let dep of departments" [value]="dep">{{ dep }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Select Doctor</mat-label>
+              <mat-select name="doctor" [(ngModel)]="booking.doctor" required>
+                <mat-option *ngFor="let doc of doctors" [value]="doc.name">{{ doc.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div style="text-align:right">
+              <button mat-raised-button color="primary" (click)="innerBookingStepper.next()" [disabled]="!bookingForm1.valid">
+                Next
+              </button>
+            </div>
+          </form>
+        </mat-step>
 
-        <!-- Doctor -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Select Doctor</mat-label>
-          <mat-select name="doctor" [(ngModel)]="booking.doctor" required>
-            <mat-option *ngFor="let doc of doctors" [value]="doc">{{doc.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <mat-step label="Date Selection">
+          <form
+            #bookingForm2="ngForm"
+            (ngSubmit)="completeBookingStep(bookingForm2, innerBookingStepper, outerStepper)"
+          >
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Preferred Date</mat-label>
+              <input matInput [matDatepicker]="picker" name="date" [(ngModel)]="booking.date" required />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <div style="text-align:right">
+              <button mat-raised-button color="accent" (click)="innerBookingStepper.previous()">Back</button>
+              <button mat-raised-button color="primary" type="submit" [disabled]="!bookingForm2.valid">
+                Save & Next
+              </button>
+            </div>
+          </form>
+        </mat-step>
 
-        <!-- Preferred Date -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Preferred Date</mat-label>
-          <input matInput [matDatepicker]="picker" name="date" [(ngModel)]="booking.date" required />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+      </mat-horizontal-stepper>
+    </mat-step>
 
-        <button mat-raised-button color="primary" class="book-btn" [disabled]="!bookingForm.valid">Book Appointment</button>
-      </form>
-    </div>
-
-    <div class="calendar-panel">
-      <h4>Available Slots</h4>
-      <!-- Placeholder for calendar -->
-      <div class="calendar-placeholder">
-        <!-- Use FullCalendar or Angular scheduler here -->
-       <schedule-availability [doctor]="booking.doctor || ''" [date]="booking.date"></schedule-availability>
-
+    <!-- Step 3: Confirmation -->
+    <mat-step label="Confirm & Save">
+      <div style="text-align:center; padding:20px">
+        <h3>✅ Review Details & Confirm</h3>
+        <p>Patient: {{ patient.firstName }} {{ patient.lastName }}</p>
+        <p>Department: {{ booking.department }}</p>
+        <p>Doctor: {{ booking.doctor }}</p>
+        <p>Appointment Date: {{ booking.date | date }}</p>
+        <div style="margin-top: 20px;">
+          <button mat-raised-button color="accent" (click)="outerStepper.previous()">Back</button>
+          <button mat-raised-button color="primary" (click)="finalConfirm()">
+            Confirm Booking
+          </button>
+        </div>
       </div>
-    </div>
-  </div>
+    </mat-step>
+
+  </mat-horizontal-stepper>
 </mat-card>

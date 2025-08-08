@@ -28,6 +28,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatStepperModule} from '@angular/material/stepper';
 
 // FullCalendar Module
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -59,7 +60,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     MatNativeDateModule,
     MatCheckboxModule,
     MatSnackBarModule,
-    FullCalendarModule
+    FullCalendarModule,
+    MatStepperModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
