@@ -14,11 +14,11 @@
 </div>
 
 <!-- ✅ Table -->
-<div class="table-container" *ngIf="filteredPatients.length > 0">
+<div class="table-container" *ngIf="patients.length > 0">
   <table class="patient-table">
     <thead>
       <tr>
-        <th>#ID</th>
+        <!-- <th>#ID</th> -->
         <th>Full Name</th>
         <th>Gender</th>
         <th>DOB</th>
@@ -32,17 +32,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let patient of filteredPatients">
-        <td data-label="#ID">{{ patient.id }}</td>
-        <td data-label="Full Name">{{ patient.name }}</td>
+      <tr *ngFor="let patient of patients">
+        <!-- <td data-label="#ID">{{ patient.id }}</td> -->
+        <td data-label="Full Name">{{ patient.name | titlecase}}</td>
         <td data-label="Gender">{{ patient.gender }}</td>
-        <td data-label="DOB">{{ patient.dob }}</td>
+        <td data-label="DOB">{{ patient.dob | date}}</td>
         <td data-label="Address">{{ patient.address }}</td>
         <td data-label="Email">{{ patient.email }}</td>
         <td data-label="Phone">{{ patient.phone }}</td>
         <td data-label="Department">{{ patient.department }}</td>
-        <td data-label="Doctor">{{ patient.doctor }}</td>
-        <td data-label="Appointment Date">{{ patient.date }}</td>
+        <td data-label="Doctor">{{ $any(patient.doctor).name ?? '' }}</td>
+        <td data-label="Appointment Date">{{ patient.date | date }}</td>
         <td data-label="Actions">
           <button class="btn-edit" (click)="editPatient(patient)">✏️</button>
           <button class="btn-delete" (click)="deletePatient(patient.id)">🗑️</button>

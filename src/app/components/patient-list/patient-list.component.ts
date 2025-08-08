@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientService } from 'src/app/services/patient.service';
 import { Patient } from 'src/app/models/patient.model';
+import { AppointmentService } from 'src/app/services/appointment.service';
 
 @Component({
   selector: 'app-patient-list',
@@ -11,12 +12,11 @@ export class PatientListComponent implements OnInit {
   patients: Patient[] = [];
   searchTerm: string = '';
 
-  constructor(private patientService: PatientService) {}
+  constructor(private patientService: PatientService, private appointmentService: AppointmentService ) {}
 
   ngOnInit() {
-    this.patientService.patients$.subscribe(patients => {
-      this.patients = patients;
-    });
+      this.patients = this.appointmentService.getAppointments();
+      console.log("this.patient", this.patients)
   }
 
   get filteredPatients(): Patient[] {

@@ -1,13 +1,16 @@
-<h2>Appointment Calendar</h2>
+<h2 id="head">📅 Appointment Calendar</h2>
 
-<!-- FullCalendar UI -->
-<full-calendar [options]="calendarOptions"></full-calendar>
+<div class="calendar-wrapper">
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div>
 
 <br />
 
 <!-- Table View of Appointments -->
-<h3>Appointment Table</h3>
-<table>
+<h3 style="font-size: x-large; margin-top: 30px; text-align: center;"><b>📋 Appointment Table</b></h3>
+
+<div id="tcontrol">
+  <table #appointmentTable>
   <thead>
     <tr>
       <th>Patient ID</th>
@@ -17,11 +20,13 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let appt of appointments">
-      <td>{{ appt.patientId }}</td>
-      <td>{{ appt.doctorId }}</td>
-      <td>{{ appt.date }}</td>
-      <td>{{ appt.time }}</td>
+    <tr *ngFor="let appt of appointments"
+        [class.highlight]="selectedDate === appt.date">
+      <td>{{ appt.name | titlecase }}</td>
+      <td>{{ appt.doctor.name }}</td>
+      <td>{{ appt.date | date}}</td>
+      <td>{{ appt.time ?? '10:00 AM'}}</td>
     </tr>
   </tbody>
 </table>
+</div>

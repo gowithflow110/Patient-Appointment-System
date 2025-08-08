@@ -12,7 +12,7 @@ export class PatientService {
   private patientsSubject = new BehaviorSubject<Patient[]>(this.loadPatients());
   patients$ = this.patientsSubject.asObservable();
 
-  private loadPatients(): Patient[] {
+   loadPatients(): Patient[] {
     const data = localStorage.getItem(this.storageKey);
     return data ? JSON.parse(data) : [];
   }

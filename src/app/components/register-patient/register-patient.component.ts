@@ -85,6 +85,7 @@ export class RegisterPatientComponent {
   onBook(form: NgForm) {
     if (form.valid) {
       this.appointmentService.addAppointment(this.booking);
+      this.registerPatient(form);
       this.snackBar.open('Appointment booked!', 'Close', { duration: 3000 });
       form.resetForm();
       this.resetBookingForm();
